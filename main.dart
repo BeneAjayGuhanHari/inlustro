@@ -86,7 +86,10 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(title: Text('Home')),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.pink[100], // mild sexy background color
+          image: DecorationImage(
+            image: AssetImage('images/cp.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Center(
           child: Column(
@@ -110,6 +113,7 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('View Profile'),
               ),
+
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -118,6 +122,15 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: Text('Messages'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedbackPage()),
+                  );
+                },
+                child: Text('Feedback'),
               ),
             ],
           ),
@@ -221,13 +234,81 @@ class MessagesPage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                'No Messages for you',
-                style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white), // Corrected font size syntax
+                'Sorry...No Messages for you',
+                style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white), // Corrected font size syntax
               ),
             ),
           ],
         )
       ),
     );
+  }
+}
+class FeedbackPage extends StatefulWidget {
+  @override
+  _FeedbackPageState createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
+  TextEditingController _feedbackController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Feedback')),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/kis.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: _feedbackController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter your feedback',
+                        border: InputBorder.none,
+                      ),
+                      maxLines: 5,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // Save feedback to database or perform other actions
+                    String feedback = _feedbackController.text;
+                    print('User Feedback: $feedback');
+                    // You can add further actions here like saving feedback to a database
+                    // or sending it to a server.
+                    // For now, let's just print the feedback to the console.
+                  },
+                  child: Text('Submit Feedback'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _feedbackController.dispose();
+    super.dispose();
   }
 }
